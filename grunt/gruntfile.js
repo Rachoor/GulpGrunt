@@ -10,9 +10,23 @@ module.exports = function(grunt) {
         build: ['gruntfile.js', 'src/**/*.js']
     },
 
+    watch: {
+        files: ['src//*.css', 'src//*.sass'], 
+        tasks: ['sass', 'cssmin'] },
+    
+        scripts: { 
+        files: 'src/**/*.js', tasks: ['jshint', 'uglify'] 
+    },
+
     uglify: {
         options: {
-        },
+        },    
+        dev: { 
+          files: { 'dist/js/magic.min.js': ['src/js/magic.js', 'src/js/magic2.js'] } 
+        }, 
+        production: { 
+          files: { 'dist/js/magic.min.js': 'src/**/*.js' } 
+        }, 
         build: {
           files: {
             'dist/js/magic.min.js': 'src/js/magic.js'
@@ -28,7 +42,7 @@ module.exports = function(grunt) {
             'dist/css/style.min.css': 'src/css/style.css'
           }
         }
-      },
+    },
     
     sass: {
         build: {
@@ -40,7 +54,10 @@ module.exports = function(grunt) {
 
     });
 
-    grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'sass']); 
+    grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'sass']);   
+    grunt.registerTask('dev', ['uglify:dev']);
+    grunt.registerTask('production', ['uglify:production']);
+    
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-sass');
