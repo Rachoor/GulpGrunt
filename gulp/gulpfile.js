@@ -16,10 +16,10 @@ gulp.task('hello', function() {
 
 gulp.task('sass', function(){
     return gulp.src('app/scss/**/*.scss')
-    .pipe(sass())
-    .pipe(gulp.dest('dist/css'))
-    .pipe(browserSync.reload({
-      stream: true
+      .pipe(sass())
+      .pipe(gulp.dest('dist/css'))
+      .pipe(browserSync.reload({
+        stream: true
     }))
 });
 
@@ -33,11 +33,16 @@ gulp.task('browserSync', function() {
 
 gulp.task('images', function(){
     return gulp.src('app/images/**/*.+(png|jpg|jpeg|gif|svg)')
-    .pipe(cache(imagemin({
+      .pipe(cache(imagemin({
         interlaced: true
-    })))
-    .pipe(gulp.dest('dist/images'))
+      })))
+      .pipe(gulp.dest('dist/images'))
 });
+
+gulp.task('fonts', function() {
+    return gulp.src('app/fonts/**/*')
+      .pipe(gulp.dest('dist/fonts'))
+})
 
 gulp.task('useref', function(){
     return gulp.src('app/*.html')
@@ -46,6 +51,7 @@ gulp.task('useref', function(){
       .pipe(gulpIf('*.css', cssnano()))
       .pipe(gulp.dest('dist'))
 });
+
 
 gulp.task('watch', ['browserSync', 'sass'], function(){
     gulp.watch('app/scss/**/*.scss', ['sass']); 
